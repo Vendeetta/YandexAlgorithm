@@ -3,7 +3,11 @@ package algorithm;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,9 +26,12 @@ import java.util.stream.Collectors;
 public class NumberOfUniqWords {
 
     public static void main(String[] args) throws IOException {
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            StringBuilder builder = new StringBuilder();
 
-        }
+        List<String> strings = Files.readAllLines(Path.of("/home/spaikk/Рабочий стол/Java/test.txt"));
+        String str = strings.stream()
+                .map(a -> a.replaceAll("[\\,\\.\\?\\!\\:\\;]", ""))
+                .collect(Collectors.joining(" "));
+        System.out.println(new HashSet<>(List.of(str.split(" "))).size());
+
     }
 }
