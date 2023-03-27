@@ -30,4 +30,5 @@ public class Metro {
     private static int readData() throws IOException {
            return Integer.parseInt(reader.readLine());
         }
+    //test
 }
