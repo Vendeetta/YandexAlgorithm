@@ -26,21 +26,28 @@ public class TaskD {
             double b = Double.parseDouble(tmp[1]);
             double c = Double.parseDouble(tmp[2]);
             double d = Double.parseDouble(tmp[3]);
-            double l = -2;
-            double r = 2;
-            double ans = 0;
-            if (a > 0)
-                ans = -d;
-            while (r - l > 1e-6) {
-                double x = l + (r - l) / 2;
-                if (a * Math.pow(x, 3) + b * Math.pow(x, 2) + (c * x ) > ans) {
-                    r = x;
+            double l = -10000;
+            double r = 10000;
+            int i = 0;
+            while (i < 1000000) {
+                double x = (l + r)/ 2;
+                double res = a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d;
+                if (a > 0) {
+                    if (res > 0){
+                        r = x;
+                    } else {
+                        l = x;
+                    }
+                } else {
+                    if (res > 0) {
+                        l = x;
+                    } else {
+                        r = x;
+                    }
                 }
-                else {
-                    l = x;
-                }
+                i++;
             }
-            System.out.println((l+r) / 2);
+            System.out.print(l);
         }
     }
 }
