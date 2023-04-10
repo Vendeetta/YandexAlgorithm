@@ -1,11 +1,11 @@
 package algorithm;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /*
 Ежегодный турнир «Веселый коровяк» — по метанию коровьих лепешек на дальность — прошел 8–9 июля
@@ -47,33 +47,30 @@ import java.util.List;
 public class CowPatties {
     public static void main(String[] args) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            int n = Integer.parseInt(reader.readLine());
-            List<Integer> results = new ArrayList<>(n);
-            String[] tmp = reader.readLine().split(" ");
-            for (int i = 0; i < n; i++) {
-                results.add(Integer.parseInt(tmp[i]));
+            reader.readLine();
+            List<Integer> array = Arrays.stream(reader.readLine().split(" "))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+
+            int maxPosition = 0;
+            for (int i = 1; i < array.size(); i++) {
+                if (array.get(i) > array.get(maxPosition))
+                    maxPosition = i;
             }
-            int max = Collections.max(results);
-            int idx = results.indexOf(max);
-            int currMax = 0;
-            for (; idx < results.size() - 1; idx++) {
-                int currRes = results.get(idx);
-                if ((currRes % 5 == 0 && (currRes / 5) % 2 != 0)) {
-                    if (currRes >= results.get(idx + 1)) {
-                        if (currMax == 0)
-                            currMax = currRes;
-                        else if (currRes > currMax)
-                            currMax = currRes;
-                    }
+            int ans = 0;
+            for (int i = 0; i < array.size() - 1; i++) {
+                int x = array.get(i);
+                if (((x % 10) == 5) && (i > maxPosition) && (x > array.get(i + 1)) && (x > ans)) {
+                    ans = x;
                 }
             }
-            if (currMax == 0) {
-                System.out.println(0);
-            } else {
-                results.sort(Collections.reverseOrder());
-                System.out.println(results.indexOf(currMax) + 1);
-            }
-
+            Collections.sort(array, new Comparator<Integer>() {
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return o2 - o1;
+                }
+            });
+            System.out.println(array.indexOf(ans) + 1);
         }
     }
 }
